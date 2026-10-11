@@ -22,16 +22,32 @@ class Task(BaseModel):
 class TaskCreate(BaseModel):
     title: str
 
+class BookCreate(BaseModel):
+    book: str
+
+book = ""
 tasks: list[Task] = []
 
-@app.get("/tasks",  response_model=list[Task])
+@app.get("/my_book", tags=["Книги"])
+def get_book():
+    return f"Любимая книга: {book}"
+
+@app.post("/add_book", tags=["Книги"])
+def add_book(payload: BookCreate):
+    global book
+    book = payload.book
+    return book
+
+
+@app.get("/tasks",  response_model=list[Task], tags=["Задачи"])
 def get_tasks():
     return tasks
 
 
-@app.post("/tasks", response_model=Task, status_code=status.HTTP_201_CREATED)
+@app.post("/tasks", response_model=Task, status_code=status.HTTP_201_CREATED, tags=["Задачи"])
 def create_task(payload: TaskCreate):
     """Создать новую задачу"""
     task = Task(id=str(uuid4()), title=payload.title, completed=False)
     tasks.append(task)
     return task
+

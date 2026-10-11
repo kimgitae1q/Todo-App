@@ -13,9 +13,6 @@ app.add_middleware(
     allow_credentials=True,
 )
 
-
-
-
 class Task(BaseModel):
     """Модель задач"""
     id: str
@@ -25,7 +22,22 @@ class Task(BaseModel):
 class TaskCreate(BaseModel):
     title: str
 
+class BookCreate(BaseModel):
+    book: str
+
+book = ""
 tasks: list[Task] = []
+
+@app.get("/my_book")
+def get_book():
+    return f"Любимая книга: {book}"
+
+@app.post("/add_book")
+def add_book(payload: BookCreate):
+    global book
+    book = payload.book
+    return book
+
 
 @app.get("/tasks",  response_model=list[Task])
 def get_tasks():
