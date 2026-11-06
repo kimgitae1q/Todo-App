@@ -14,3 +14,4 @@ class TaskCreate(BaseModel):
 class TaskUpdate(BaseModel):
     title: str | None = None
     completed: bool | None = None
+

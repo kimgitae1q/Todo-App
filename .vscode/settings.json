@@ -1,3 +1,4 @@
 {
-    "python.terminal.useEnvFile": true
+    "python.terminal.useEnvFile": true,
+    "python.analysis.ignore": ["app/oldv.py"]
 }
