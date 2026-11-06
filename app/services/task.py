@@ -34,4 +34,4 @@ class TaskService:
         task = self.repository.get_by_id(task_id)
 
         self.repository.delete(task)
-        self.db.comit()
+        self.db.commit()
