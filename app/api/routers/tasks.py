@@ -6,15 +6,17 @@ from app.services.task import TaskNotFoundError, TaskService
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
+
 @router.get("", response_model=list[TaskRead])
 def get_tasks(service: TaskService = Depends(get_task_service)) -> list[TaskRead]:
     return service.list_tasks()
+
 
 @router.post("", response_model=TaskRead, status_code=status.HTTP_201_CREATED)
 def create_task(
     payload: TaskCreate,
     service: TaskService = Depends(get_task_service),
-    ) -> TaskRead:
+) -> TaskRead:
     return service.create_task(payload)
 
 
@@ -23,7 +25,7 @@ def update_task(
     task_id: str,
     payload: TaskUpdate,
     service: TaskService = Depends(get_task_service),
-    ) -> TaskRead:
+) -> TaskRead:
 
     try:
         return service.update_task(task_id, payload)
@@ -38,7 +40,7 @@ def update_task(
 def delete_task(
     task_id: str,
     service: TaskService = Depends(get_task_service),
-    ) -> None:
+) -> None:
 
     try:
         service.delete_task(task_id)

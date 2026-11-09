@@ -3,11 +3,12 @@ from sqlalchemy.orm import Session
 from app.repositories.task import TaskRepository
 from app.schemas.task import TaskCreate, TaskRead, TaskUpdate
 
+
 class TaskNotFoundError(Exception):
     pass
 
-class TaskService:
 
+class TaskService:
     def __init__(self, db: Session):
         self.db = db
         self.repository = TaskRepository(db)
@@ -27,7 +28,9 @@ class TaskService:
             raise TaskNotFoundError
 
         task.title = payload.title if payload.title is not None else task.title
-        task.completed = payload.completed if payload.completed is not None else task.completed
+        task.completed = (
+            payload.completed if payload.completed is not None else task.completed
+        )
 
         self.db.commit()
         return TaskRead.model_validate(task)

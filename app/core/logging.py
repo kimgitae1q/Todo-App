@@ -1,8 +1,9 @@
-import logging 
+import logging
+
 
 def configure_logging():
     root_logger = logging.getLogger()
-    if not root_logger.handlers: # чтобы не навесить обработчки повторно
+    if not root_logger.handlers:  # чтобы не навесить обработчки повторно
         logging.basicConfig(
             level=logging.INFO,
             format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",

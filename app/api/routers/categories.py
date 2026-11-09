@@ -1,15 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.dependencies import get_category_service
-from app.services.category import CategoryNotFoundError, CategoryService
 from app.schemas.category import CategoryCreate, CategoryRead, CategoryUpdate
-
+from app.services.category import CategoryNotFoundError, CategoryService
 
 router = APIRouter(prefix="/categories", tags=["categories"])
 
 
 @router.get("", response_model=list[CategoryRead])
-def get_categories(service: CategoryService = Depends(get_category_service)) -> list[CategoryRead]:
+def get_categories(
+    service: CategoryService = Depends(get_category_service),
+) -> list[CategoryRead]:
     return service.list_categories()
 
 
@@ -17,7 +18,7 @@ def get_categories(service: CategoryService = Depends(get_category_service)) -> 
 def create_category(
     payload: CategoryCreate,
     service: CategoryService = Depends(get_category_service),
-    ) -> CategoryRead:
+) -> CategoryRead:
     return service.create_category(payload)
 
 
@@ -26,7 +27,7 @@ def update_category(
     category_id: str,
     payload: CategoryUpdate,
     service: CategoryService = Depends(get_category_service),
-    ) -> CategoryRead:
+) -> CategoryRead:
 
     try:
         return service.update_category(category_id, payload)
@@ -41,7 +42,7 @@ def update_category(
 def delete_category(
     category_id: str,
     service: CategoryService = Depends(get_category_service),
-    ) -> None:
+) -> None:
 
     try:
         service.delete_category(category_id)
